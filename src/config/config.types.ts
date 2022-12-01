@@ -1,15 +1,10 @@
-import { LoggerOptions } from 'typeorm';
+import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
 
 export interface ConfigGraphql {
   playground: boolean;
 }
 
-export interface ConfigDatabase {
-  url: string;
-  logging: LoggerOptions;
-  migrating: boolean;
-  synchronize: boolean;
-}
+export type ConfigDatabase = PostgresConnectionOptions;
 
 export interface ConfigJwt {
   secret: string;

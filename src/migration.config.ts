@@ -1,7 +1,9 @@
 import { DataSource } from 'typeorm';
-import ormconfig from './datasource.config';
+import { ConfigService } from './config';
 
-const datasource = new DataSource(ormconfig);
+const configService = new ConfigService();
+
+const datasource = new DataSource(configService.database);
 datasource.initialize();
 
 export default datasource;

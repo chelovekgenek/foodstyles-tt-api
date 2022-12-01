@@ -47,8 +47,11 @@ export class ConfigService {
 
   get database(): ConfigDatabase {
     return {
+      name: 'default',
+      type: 'postgres',
+      entities: ['dist/**/*.entity.js'],
+      migrations: ['dist/migrations/*.js'],
       url: this.schema.DATABASE_URL,
-      migrating: this.schema.DATABASE_MIGRATION_RUNNING,
       logging: this.schema.DATABASE_LOGGING as LoggerOptions,
       synchronize: false,
     };

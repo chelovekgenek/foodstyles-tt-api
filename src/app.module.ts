@@ -1,16 +1,19 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { GraphqlModuleProvider } from './common/providers';
+import {
+  GraphqlModuleProvider,
+  TypeormModuleProvider,
+} from './common/providers';
 import { UserModule } from './user';
+import { TodoModule } from './todo';
 import { ConfigModule } from './config';
-import ormconfig from './datasource.config';
 
 @Module({
   imports: [
     GraphqlModuleProvider,
-    TypeOrmModule.forRoot(ormconfig as TypeOrmModuleOptions),
-    UserModule,
+    TypeormModuleProvider,
     ConfigModule,
+    UserModule,
+    TodoModule,
   ],
   controllers: [],
   providers: [],
