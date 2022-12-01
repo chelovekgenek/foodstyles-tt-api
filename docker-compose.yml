@@ -1,0 +1,21 @@
+version: '3'
+services:
+  app:
+    stdin_open: true
+    tty: true
+    depends_on:
+      - psql
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    ports:
+      - '3000:3000'
+
+  psql:
+    image: postgres:12
+    restart: always
+    env_file: ./docker/psql.env
+    volumes:
+      - ./volumes/.psql:/var/lib/postgresql/data
+    ports:
+      - '127.0.0.1:5432:5432'

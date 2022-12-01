@@ -1,17 +1,51 @@
+import { Logger } from '@nestjs/common';
 import { cwd } from 'process';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as dotenv from 'dotenv';
+import { LoggerOptions } from 'typeorm';
 import { plainToClass } from 'class-transformer';
+import { validateSync } from 'class-validator';
 import { ConfigSchema } from './config.schema';
-import { ConfigGraphql } from './config.types';
+import { ConfigDatabase, ConfigGraphql } from './config.types';
+import { flattenValidationErrors } from '../common/utils';
 
 export class ConfigService {
+  private readonly logger = new Logger(ConfigService.name);
   private readonly schema: ConfigSchema = new ConfigSchema();
 
   constructor() {
     const nextSchema = this.collectAndTransform();
+
+    const errors = validateSync(nextSchema);
+    if (errors.length) {
+      this.logger.error('Config validation error!');
+      for (const error of flattenValidationErrors(errors)) {
+        this.logger.error(`${error.path}: ${error.message};`);
+      }
+      process.exit(1);
+    }
+
     this.schema = nextSchema;
+  }
+
+  get port(): number {
+    return this.schema.PORT;
+  }
+
+  get graphql(): ConfigGraphql {
+    return {
+      playground: this.schema.GRAPHQL_PLAYGROUND,
+    };
+  }
+
+  get database(): ConfigDatabase {
+    return {
+      url: this.schema.DATABASE_URL,
+      migrating: this.schema.DATABASE_MIGRATION_RUNNING,
+      logging: this.schema.DATABASE_LOGGING as LoggerOptions,
+      synchronize: false,
+    };
   }
 
   private collectAndTransform(): ConfigSchema {
@@ -33,15 +67,5 @@ export class ConfigService {
     }, rawSchema);
 
     return plainToClass(ConfigSchema, rawSchema);
-  }
-
-  get port(): number {
-    return this.schema.PORT;
-  }
-
-  get graphql(): ConfigGraphql {
-    return {
-      playground: this.schema.GRAPHQL_PLAYGROUND,
-    };
   }
 }

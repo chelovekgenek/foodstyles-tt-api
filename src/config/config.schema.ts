@@ -1,4 +1,12 @@
-import { IsBoolean, IsInt, Max, Min } from 'class-validator';
+import {
+  IsBoolean,
+  IsIn,
+  IsInt,
+  IsNotEmpty,
+  IsString,
+  Max,
+  Min,
+} from 'class-validator';
 import { ToBoolean, ToNumber } from './data-transformers.util';
 
 export class ConfigSchema {
@@ -11,4 +19,16 @@ export class ConfigSchema {
   @ToBoolean
   @IsBoolean()
   GRAPHQL_PLAYGROUND = false;
+
+  @IsString()
+  @IsNotEmpty()
+  DATABASE_URL =
+    'postgres://postgres:mysecretpassword@localhost:5432/food-styles';
+
+  @ToBoolean
+  @IsBoolean()
+  DATABASE_MIGRATION_RUNNING = false;
+
+  @IsIn(['all', 'error'])
+  DATABASE_LOGGING: 'all' | 'error' = 'error';
 }
