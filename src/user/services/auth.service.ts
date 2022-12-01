@@ -20,7 +20,7 @@ export class AuthService {
   ) {}
 
   async validatePayload(payload: JwtPayload): Promise<UserEntity> {
-    const user = await this.userService.findById(payload.sub);
+    const user = await this.userService.getById(payload.sub);
     if (user) {
       return user;
     }
@@ -31,7 +31,7 @@ export class AuthService {
     email: string,
     password: string,
   ): Promise<UserEntity> {
-    const user = await this.userService.findByEmail(email);
+    const user = await this.userService.getByEmail(email);
 
     if (user && (await this.comparePassword(password, user.password))) {
       return user;

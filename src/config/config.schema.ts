@@ -25,12 +25,12 @@ export class ConfigSchema {
   DATABASE_URL =
     'postgres://postgres:mysecretpassword@localhost:5432/food-styles';
 
-  @ToBoolean
-  @IsBoolean()
-  DATABASE_MIGRATION_RUNNING = false;
-
   @IsIn(['all', 'error'])
   DATABASE_LOGGING: 'all' | 'error' = 'error';
+
+  @ToBoolean
+  @IsBoolean()
+  DATABASE_SYNCHRONIZE = false;
 
   @IsString()
   @IsNotEmpty()

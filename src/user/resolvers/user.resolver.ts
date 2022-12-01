@@ -13,7 +13,7 @@ export class UserResolver {
   @Query(() => [UserSchema], { name: 'users', nullable: false })
   @UseGuards(GqlAuthGuard)
   async getUsers(): Promise<UserSchema[]> {
-    const users = await this.userService.find();
+    const users = await this.userService.getAll();
     return users.map((user) => this.toDto(user));
   }
 

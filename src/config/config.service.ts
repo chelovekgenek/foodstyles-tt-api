@@ -53,7 +53,7 @@ export class ConfigService {
       migrations: ['dist/migrations/*.js'],
       url: this.schema.DATABASE_URL,
       logging: this.schema.DATABASE_LOGGING as LoggerOptions,
-      synchronize: false,
+      synchronize: this.schema.DATABASE_SYNCHRONIZE,
     };
   }
 

@@ -20,7 +20,7 @@ export class UserService {
   ) {}
 
   async create(input: CreateUserInput): Promise<UserEntity> {
-    const duplicateUser = await this.findByEmail(input.email);
+    const duplicateUser = await this.getByEmail(input.email);
     if (duplicateUser) {
       throw new ConflictException('User already exists!');
     }
@@ -32,15 +32,15 @@ export class UserService {
     return this.repository.save(entity);
   }
 
-  async find(): Promise<UserEntity[]> {
+  async getAll(): Promise<UserEntity[]> {
     return this.repository.find();
   }
 
-  async findByEmail(email: string): Promise<UserEntity> {
+  async getByEmail(email: string): Promise<UserEntity> {
     return this.repository.findOne({ where: { email } });
   }
 
-  async findById(id: number): Promise<UserEntity> {
-    return this.repository.findOneOrFail({ where: { id } });
+  async getById(id: number): Promise<UserEntity> {
+    return this.repository.findOne({ where: { id } });
   }
 }

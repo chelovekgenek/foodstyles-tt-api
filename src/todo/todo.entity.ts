@@ -1,34 +1,27 @@
 import {
   Column,
-  Entity,
   CreateDateColumn,
-  UpdateDateColumn,
+  Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
-  OneToMany,
+  UpdateDateColumn,
 } from 'typeorm';
-import { TodoEntity } from '../todo/todo.entity';
 import { TableName } from '../common/types';
+import { UserEntity } from '../user/user.entity';
 
-@Entity({ name: TableName.USER })
-export class UserEntity {
+@Entity({ name: TableName.TODO })
+export class TodoEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  name: string;
+  text: string;
 
-  @Column({ unique: true })
-  email: string;
+  @Column({ default: false })
+  completed: boolean;
 
-  @Column({})
-  password: string;
-
-  @OneToMany(() => TodoEntity, (e) => e.user, {
-    cascade: true,
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  })
-  todos: TodoEntity[];
+  @ManyToOne(() => UserEntity, (e) => e.todos, { nullable: false })
+  user: UserEntity;
 
   @CreateDateColumn({
     name: 'created_at',
