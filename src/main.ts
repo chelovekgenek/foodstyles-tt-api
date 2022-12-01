@@ -1,10 +1,21 @@
 import { NestApplication, NestFactory } from '@nestjs/core';
-import { Logger } from '@nestjs/common';
+import { HttpStatus, Logger, ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { ConfigService } from './config/config.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  const globalPipes = [
+    new ValidationPipe({
+      transform: true,
+      whitelist: true,
+      errorHttpStatusCode: HttpStatus.BAD_REQUEST,
+    }),
+  ];
+
+  app.useGlobalPipes(...globalPipes);
+
   const logger = new Logger(NestApplication.name);
   const configService = app.get(ConfigService);
 

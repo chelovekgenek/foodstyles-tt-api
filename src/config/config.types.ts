@@ -10,3 +10,7 @@ export interface ConfigDatabase {
   migrating: boolean;
   synchronize: boolean;
 }
+
+export interface ConfigJwt {
+  secret: string;
+}

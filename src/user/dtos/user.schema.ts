@@ -6,5 +6,8 @@ export class UserSchema {
   id: number;
 
   @Field()
+  name: string;
+
+  @Field()
   email: string;
 }

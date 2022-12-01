@@ -12,11 +12,14 @@ export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column()
+  name: string;
+
   @Column({ unique: true })
   email: string;
 
-  @Column({ default: false })
-  password: boolean;
+  @Column({})
+  password: string;
 
   @CreateDateColumn({
     name: 'created_at',

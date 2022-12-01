@@ -31,4 +31,8 @@ export class ConfigSchema {
 
   @IsIn(['all', 'error'])
   DATABASE_LOGGING: 'all' | 'error' = 'error';
+
+  @IsString()
+  @IsNotEmpty()
+  JWT_SECRET = 'jwt-secret';
 }

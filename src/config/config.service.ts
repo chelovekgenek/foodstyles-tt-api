@@ -7,7 +7,7 @@ import { LoggerOptions } from 'typeorm';
 import { plainToClass } from 'class-transformer';
 import { validateSync } from 'class-validator';
 import { ConfigSchema } from './config.schema';
-import { ConfigDatabase, ConfigGraphql } from './config.types';
+import { ConfigDatabase, ConfigGraphql, ConfigJwt } from './config.types';
 import { flattenValidationErrors } from '../common/utils';
 
 export class ConfigService {
@@ -36,6 +36,12 @@ export class ConfigService {
   get graphql(): ConfigGraphql {
     return {
       playground: this.schema.GRAPHQL_PLAYGROUND,
+    };
+  }
+
+  get jwt(): ConfigJwt {
+    return {
+      secret: this.schema.JWT_SECRET,
     };
   }
 
