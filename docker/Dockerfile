@@ -1,5 +1,3 @@
-ARG npmToken
-
 #
 # Base environment
 #
@@ -13,24 +11,19 @@ RUN apk update --no-cache && \
 #
 FROM base as builder
 
-ARG npmToken
-ENV NPM_TOKEN=$npmToken
-
 WORKDIR /build
 
 COPY src ./src
-COPY *.json *.lock *.js .npmrc ./
+COPY *.json *.lock *.js ./
 
 # yarn depends on bash and git
 RUN apk add --no-cache bash git
 
 # nest build
-RUN mkdir .yarncache && \
-    yarn install --network-timeout 1000000 --cache-folder .yarncache && \
-    yarn build && \
+RUN npm install && \
+    npm run build && \
     rm -rf node_modules && \
-    yarn install --production=true --network-timeout 1000000 --cache-folder .yarncache && \
-    rm -rf .yarncache
+    npm ci
 
 #
 # Runtime
@@ -46,12 +39,12 @@ COPY --from=builder /build/node_modules node_modules
 COPY --from=builder /build/package.json package.json
 
 # Create a non-root user
-RUN adduser -D system0 && \
-    chown -R system0: /app
+RUN adduser -D myuser && \
+    chown -R myuser: /app
 
-USER system0
+USER myuser
 
 EXPOSE 3000
 EXPOSE 3001
 
-ENTRYPOINT [ "yarn", "start:prod" ]
+ENTRYPOINT [ "npm", "start" ]
