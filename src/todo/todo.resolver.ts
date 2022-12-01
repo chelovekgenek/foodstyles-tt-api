@@ -2,7 +2,12 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { plainToClass } from 'class-transformer';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from '../common/guards';
-import { CreateTodoInput, TodoIdArg, TodoSchema } from './dtos';
+import {
+  CreateTodoInput,
+  TodoIdArg,
+  TodoSchema,
+  TodosFilterInput,
+} from './dtos';
 import { TodoService } from './todo.service';
 import { TodoEntity } from './todo.entity';
 import { CurrentUser } from 'src/user/current-user.decorator';
@@ -14,8 +19,13 @@ export class TodoResolver {
 
   @Query(() => [TodoSchema], { name: 'todos', nullable: false })
   @UseGuards(GqlAuthGuard)
-  async getTodos(@CurrentUser() user: UserEntity): Promise<TodoSchema[]> {
-    const todos = await this.todoService.getAllByUserId(user.id);
+  async getTodos(
+    @Args('filter', { nullable: true })
+    filter: TodosFilterInput,
+    @CurrentUser() { id: userId }: UserEntity,
+  ): Promise<TodoSchema[]> {
+    const query = this.todoService.buildQueryFromFilter(filter);
+    const todos = await this.todoService.getAllByUserId(userId, query);
     return todos.map((todo) => this.toDto(todo));
   }
 
@@ -42,7 +52,7 @@ export class TodoResolver {
 
   @Mutation(() => TodoSchema)
   @UseGuards(GqlAuthGuard)
-  async markTodoUncompleted(
+  async markTodoIncompleted(
     @Args(TodoIdArg) todoId: number,
   ): Promise<Pick<TodoSchema, 'id'>> {
     const todo = await this.todoService.updateById(todoId, {
