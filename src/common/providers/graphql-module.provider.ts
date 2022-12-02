@@ -9,6 +9,8 @@ export const GraphqlModuleProvider =
     inject: [ConfigService],
     useFactory: (configService: ConfigService) => ({
       autoSchemaFile: true,
+      cache: 'bounded',
+      introspection: true,
       playground: configService.graphql.playground,
     }),
   });

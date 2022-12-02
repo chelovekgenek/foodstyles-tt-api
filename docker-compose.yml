@@ -8,13 +8,16 @@ services:
     build:
       context: .
       dockerfile: ./docker/Dockerfile
+    env_file:
+      - ./docker/app.env
     ports:
-      - '3000:3000'
+      - '127.0.0.1:3000:3000'
 
   psql:
     image: postgres:12
     restart: always
-    env_file: ./docker/psql.env
+    env_file:
+      - ./docker/psql.env
     volumes:
       - ./volumes/.psql:/var/lib/postgresql/data
     ports:

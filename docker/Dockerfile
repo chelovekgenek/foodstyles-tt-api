@@ -11,6 +11,8 @@ RUN apk update --no-cache && \
 #
 FROM base as builder
 
+ENV NODE_ENV=production
+
 WORKDIR /build
 
 COPY src ./src
@@ -21,9 +23,7 @@ RUN apk add --no-cache bash git
 
 # nest build
 RUN npm install && \
-    npm run build && \
-    rm -rf node_modules && \
-    npm ci
+    npm run build 
 
 #
 # Runtime
@@ -37,6 +37,8 @@ WORKDIR /app
 COPY --from=builder /build/dist dist
 COPY --from=builder /build/node_modules node_modules
 COPY --from=builder /build/package.json package.json
+COPY --from=builder /build/tsconfig.json tsconfig.json
+COPY --from=builder /build/nest-cli.json nest-cli.json
 
 # Create a non-root user
 RUN adduser -D myuser && \
@@ -45,6 +47,5 @@ RUN adduser -D myuser && \
 USER myuser
 
 EXPOSE 3000
-EXPOSE 3001
 
 ENTRYPOINT [ "npm", "start" ]
