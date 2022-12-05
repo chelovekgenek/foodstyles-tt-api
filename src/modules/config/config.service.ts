@@ -8,7 +8,7 @@ import { plainToClass } from 'class-transformer';
 import { validateSync } from 'class-validator';
 import { ConfigSchema } from './config.schema';
 import { ConfigDatabase, ConfigGraphql, ConfigJwt } from './config.types';
-import { flattenValidationErrors } from '../common/utils';
+import { flattenValidationErrors } from '../../common/utils';
 
 export class ConfigService {
   private readonly logger = new Logger(ConfigService.name);

@@ -1,7 +1,7 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { plainToClass } from 'class-transformer';
 import { UseGuards } from '@nestjs/common';
-import { GqlAuthGuard } from '../common/guards';
+import { GqlAuthGuard } from '../../common/guards';
 import {
   CreateTodoInput,
   TodoIdArg,
@@ -10,8 +10,7 @@ import {
 } from './dtos';
 import { TodoService } from './todo.service';
 import { TodoEntity } from './todo.entity';
-import { CurrentUser } from 'src/user/current-user.decorator';
-import { UserEntity } from 'src/user';
+import { UserEntity, CurrentUser } from '../user';
 
 @Resolver(() => TodoSchema)
 export class TodoResolver {

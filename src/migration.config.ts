@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import { ConfigService } from './config';
+import { ConfigService } from './modules/config';
 
 const configService = new ConfigService();
 

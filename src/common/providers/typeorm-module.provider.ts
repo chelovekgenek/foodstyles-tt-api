@@ -1,5 +1,5 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule, ConfigService } from '../../config';
+import { ConfigModule, ConfigService } from '../../modules/config';
 
 export const TypeormModuleProvider = TypeOrmModule.forRootAsync({
   imports: [ConfigModule],

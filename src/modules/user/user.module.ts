@@ -5,7 +5,7 @@ import { ConfigModule } from '../config';
 import { UserEntity } from './user.entity';
 import { AuthResolver, UserResolver } from './resolvers';
 import { AuthService, UserService } from './services';
-import { JwtModuleProvider } from '../common/providers';
+import { JwtModuleProvider } from '../../common/providers';
 import { JwtStrategy } from './jwt.strategy';
 
 @Module({

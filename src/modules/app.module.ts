@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import {
   GraphqlModuleProvider,
   TypeormModuleProvider,
-} from './common/providers';
+} from '../common/providers';
 import { UserModule } from './user';
 import { TodoModule } from './todo';
 import { ConfigModule } from './config';

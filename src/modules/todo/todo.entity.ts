@@ -6,7 +6,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { TableName } from '../common/types';
+import { TableName } from '../../common/types';
 import { UserEntity } from '../user/user.entity';
 
 @Entity({ name: TableName.TODO })

@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity } from 'src/user';
 import { Repository } from 'typeorm';
+import { UserEntity } from '../user';
 import {
   CreateTodoInput,
   TodoCompletenessFilter,

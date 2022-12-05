@@ -7,7 +7,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { TodoEntity } from '../todo/todo.entity';
-import { TableName } from '../common/types';
+import { TableName } from '../../common/types';
 
 @Entity({ name: TableName.USER })
 export class UserEntity {
